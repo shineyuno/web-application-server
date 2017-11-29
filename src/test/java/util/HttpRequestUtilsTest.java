@@ -70,4 +70,11 @@ public class HttpRequestUtilsTest {
         Pair pair = HttpRequestUtils.parseHeader(header);
         assertThat(pair, is(new Pair("Content-Length", "59")));
     }
+    
+    @Test
+    public void splitCheck() {
+    		String str = "/index.html";
+    		String[] tokens = str.split(" ");
+    		System.out.println("tokens[0]:" + tokens[0]);
+    }
 }
