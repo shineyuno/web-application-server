@@ -3,14 +3,41 @@ package util;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.junit.Test;
 
-import util.HttpRequestUtils.Pair;
+
 
 public class HttpRequestUtilsTest {
+    private String testDirectory = "./src/test/resources/";
+	
     @Test
+    public void request_GET() throws Exception{
+    		InputStream in = new FileInputStream(new File(testDirectory + "Http_GET.txt"));
+    		HttpRequset request = new HttpRequest(in);
+    		
+    		assertEquals("GET", request.getMethod());
+    		assertEquals("/user/create", request.getPath());
+    		assertEquals("keep-alive", request.getHeader("Connection"));
+    		assertEquals("javajigi", request.getParameter("userId"));
+    }
+    
+    @Test
+    public void request_POST() throws Exception{
+    		InputStream in = new FileInputStream(new File(testDirectory + "Http_POST.txt"));
+    		HttpRequset request = new HttpRequest(in);
+    		
+    		assertEquals("POST", request.getMethod());
+    		assertEquals("/user/create", request.getPath());
+    		assertEquals("keep-alive", request.getHeader("Connection"));
+    		assertEquals("javajigi", request.getParameter("userId"));
+    }
+    
+	@Test
     public void parseQueryString() {
         String queryString = "userId=javajigi";
         Map<String, String> parameters = HttpRequestUtils.parseQueryString(queryString);
@@ -70,4 +97,5 @@ public class HttpRequestUtilsTest {
         Pair pair = HttpRequestUtils.parseHeader(header);
         assertThat(pair, is(new Pair("Content-Length", "59")));
     }
+    
 }
